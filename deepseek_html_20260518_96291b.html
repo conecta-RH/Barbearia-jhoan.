@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Jhoan's Barber | Corte e Estilo Premium</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Cormorant+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #111111;
+            --bg-card: #1a1a1a;
+            --bg-header: rgba(10, 10, 10, 0.92);
+            --text-primary: #f0f0f0;
+            --text-secondary: #b0b0b0;
+            --accent: #c9a03d;
+            --accent-hover: #dbb84f;
+            --border-light: #2a2a2a;
+            --shadow-sm: 0 10px 30px rgba(0, 0, 0, 0.6);
+            --shadow-card: 0 20px 35px -12px rgba(0, 0, 0, 0.5);
+            --hero-overlay: linear-gradient(135deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.5) 100%);
+            --btn-whatsapp: #25D366;
+            --checkbox-bg: #252525;
+        }
+
+        body.light {
+            --bg-primary: #f5f5f5;
+            --bg-secondary: #ffffff;
+            --bg-card: #ffffff;
+            --bg-header: rgba(255, 255, 255, 0.96);
+            --text-primary: #1e1e1e;
+            --text-secondary: #4a4a4a;
+            --accent: #b37b2e;
+            --accent-hover: #9a651f;
+            --border-light: #e0e0e0;
+            --shadow-sm: 0 5px 20px rgba(0, 0, 0, 0.08);
+            --shadow-card: 0 10px 25px -8px rgba(0, 0, 0, 0.1);
+            --hero-overlay: linear-gradient(135deg, rgba(245,245,245,0.85) 0%, rgba(255,255,255,0.7) 100%);
+            --checkbox-bg: #e8e8e8;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            scroll-behavior: smooth;
+        }
+
+        h1, h2, h3, .logo, .btn, .hero-title, .barbearia-name {
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        /* ========== NAVBAR FIXA ========== */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: var(--bg-header);
+            backdrop-filter: blur(12px);
+            z-index: 1000;
+            padding: 1rem 2rem;
+            border-bottom: 1px solid var(--border-light);
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            transform: translateY(0);
+        }
+
+        .navbar.navbar-hidden {
+            transform: translateY(-100%);
+        }
+
+        .nav-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .logo a {
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-decoration: none;
+            color: var(--accent);
+            transition: 0.2s;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .nav-menu li a {
+            text-decoration: none;
+            color: var(--text-primary);
+            font-weight: 500;
+            font-size: 1rem;
+            transition: 0.2s;
+        }
+
+        .nav-menu li a:hover {
+            color: var(--accent);
+        }
+
+        /* Botão de tema flutuante (canto superior direito, fixo na tela) */
+        .floating-theme-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: 60px;
+            padding: 0.6rem 1.2rem;
+            cursor: pointer;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-primary);
+            transition: all 0.3s;
+            z-index: 9999;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .floating-theme-btn:hover {
+            transform: scale(1.03);
+            border-color: var(--accent);
+            background: var(--bg-card);
+        }
+
+        /* Hero Section com efeito de chuva */
+        .hero {
+            min-height: 100vh;
+            background-image: url('https://images.unsplash.com/photo-1605497788044-5a6c6b3f0a9a?q=80&w=2070&auto=format');
+            background-size: cover;
+            background-position: center 30%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--hero-overlay);
+            z-index: 1;
+        }
+
+        /* Canvas da chuva */
+        #rainCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 3;
+            max-width: 800px;
+            padding: 2rem;
+            animation: fadeUp 0.9s ease-out;
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            margin-bottom: 0.5rem;
+        }
+
+        .barbearia-name {
+            font-size: 2.2rem;
+            font-weight: 600;
+            color: var(--accent);
+            letter-spacing: 2px;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            margin-bottom: 1rem;
+            border-bottom: 2px solid var(--accent);
+            display: inline-block;
+            padding-bottom: 0.3rem;
+        }
+
+        .hero-sub {
+            font-size: 1.2rem;
+            margin: 1rem 0 2rem;
+            color: var(--text-secondary);
+        }
+
+        .btn-scroll {
+            background: transparent;
+            border: 2px solid var(--accent);
+            padding: 1rem 2.5rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--accent);
+            cursor: pointer;
+            transition: 0.25s;
+            font-family: 'Inter', sans-serif;
+            backdrop-filter: blur(4px);
+        }
+
+        .btn-scroll:hover {
+            background: var(--accent);
+            color: #0a0a0a;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(201, 160, 61, 0.3);
+            border-color: var(--accent);
+        }
+
+        body.light .btn-scroll:hover {
+            color: #ffffff;
+        }
+
+        .section {
+            padding: 5rem 2rem;
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.8rem;
+            font-weight: 600;
+            margin-bottom: 3rem;
+            font-family: 'Cormorant Garamond', serif;
+            position: relative;
+        }
+
+        .section-title:after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 3px;
+            background: var(--accent);
+            margin: 0.8rem auto 0;
+            border-radius: 3px;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .service-card {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 2rem 1.5rem;
+            text-align: center;
+            box-shadow: var(--shadow-card);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid var(--border-light);
+        }
+
+        .service-card:hover {
+            transform: translateY(-8px);
+        }
+
+        .service-icon {
+            font-size: 2.8rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        .service-card h3 {
+            font-size: 1.6rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .price {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin: 0.8rem 0;
+        }
+
+        .desc {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .hours-box {
+            background: var(--bg-card);
+            border-radius: 28px;
+            padding: 2rem;
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
+            border: 1px solid var(--border-light);
+            box-shadow: var(--shadow-card);
+        }
+
+        .hours-box p {
+            font-size: 1.3rem;
+            margin: 0.5rem 0;
+        }
+
+        .hours-days {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--accent);
+        }
+
+        .form-container {
+            background: var(--bg-card);
+            border-radius: 28px;
+            padding: 2.5rem;
+            max-width: 700px;
+            margin: 0 auto;
+            border: 1px solid var(--border-light);
+            box-shadow: var(--shadow-card);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 1rem;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-light);
+            border-radius: 16px;
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+            outline: none;
+            transition: 0.2s;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 2px rgba(201, 160, 61, 0.3);
+        }
+
+        .checkbox-group {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-light);
+            border-radius: 16px;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 12px;
+            transition: background 0.2s;
+        }
+
+        .checkbox-item:hover {
+            background: var(--bg-card);
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: var(--accent);
+            margin: 0;
+        }
+
+        .checkbox-item label {
+            cursor: pointer;
+            margin: 0;
+            font-weight: 500;
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            font-size: 1rem;
+        }
+
+        .service-price {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .selected-services-info {
+            margin-top: 0.5rem;
+            font-size: 0.85rem;
+            color: var(--accent);
+            text-align: right;
+        }
+
+        .btn-submit {
+            background: var(--accent);
+            color: #0a0a0a;
+            border: none;
+            padding: 1rem;
+            width: 100%;
+            font-weight: bold;
+            font-size: 1.1rem;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: 0.2s;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body.light .btn-submit {
+            color: white;
+        }
+
+        .btn-submit:hover {
+            background: var(--accent-hover);
+            transform: scale(0.98);
+        }
+
+        .contact-section {
+            text-align: center;
+            padding-bottom: 3rem;
+        }
+
+        .contact-icons {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+
+        .contact-icons a {
+            color: var(--text-secondary);
+            font-size: 1.8rem;
+            transition: 0.2s;
+        }
+
+        .contact-icons a:hover {
+            color: var(--accent);
+            transform: translateY(-3px);
+        }
+
+        .instagram-handle {
+            margin-top: 1.5rem;
+            font-size: 1rem;
+            color: var(--accent);
+        }
+
+        .instagram-handle a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        .instagram-handle a:hover {
+            color: var(--accent-hover);
+            text-decoration: underline;
+        }
+
+        .address-info {
+            margin-top: 2rem;
+            padding: 1rem;
+            font-size: 1rem;
+            color: var(--text-secondary);
+            border-top: 1px solid var(--border-light);
+            display: inline-block;
+            width: 100%;
+        }
+
+        .address-info i {
+            color: var(--accent);
+            margin-right: 8px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            border-top: 1px solid var(--border-light);
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 800px) {
+            .navbar {
+                padding: 0.8rem 1rem;
+            }
+            .nav-container {
+                flex-direction: column;
+                gap: 0.8rem;
+            }
+            .nav-menu {
+                gap: 1.2rem;
+                justify-content: center;
+            }
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            .barbearia-name {
+                font-size: 1.6rem;
+            }
+            .section-title {
+                font-size: 2rem;
+            }
+            .checkbox-item label {
+                font-size: 0.9rem;
+                flex-wrap: wrap;
+            }
+            .floating-theme-btn {
+                top: 10px;
+                right: 10px;
+                padding: 0.4rem 0.8rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+            .barbearia-name {
+                font-size: 1.3rem;
+            }
+            .btn-scroll {
+                padding: 0.8rem 1.5rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        html {
+            scroll-padding-top: 0px;
+        }
+    </style>
+</head>
+<body class="dark">
+
+<!-- Navbar fixa -->
+<nav class="navbar" id="mainNavbar">
+    <div class="nav-container">
+        <div class="logo"><a href="#">Jhoan's Barber</a></div>
+        <ul class="nav-menu">
+            <li><a href="#inicio">Início</a></li>
+            <li><a href="#servicos">Serviços</a></li>
+            <li><a href="#horarios">Horários</a></li>
+            <li><a href="#agendamento">Agendamento</a></li>
+            <li><a href="#contato">Contato</a></li>
+        </ul>
+    </div>
+</nav>
+
+<!-- Botão flutuante de tema (canto superior direito, fixo) -->
+<button class="floating-theme-btn" id="floatingThemeBtn">
+    <i class="fas fa-moon" id="floatingThemeIcon"></i> <span id="floatingThemeText">Dark</span>
+</button>
+
+<main>
+    <section id="inicio" class="hero">
+        <canvas id="rainCanvas"></canvas>
+        <div class="hero-content">
+            <h1 class="hero-title">Seu estilo começa aqui.</h1>
+            <div class="barbearia-name">Jhoan's Barber</div>
+            <p class="hero-sub">Cortes modernos, barba alinhada e atendimento de qualidade.</p>
+            <button class="btn-scroll" id="scrollToBookingBtn">
+                <i class="fas fa-arrow-down"></i> Role a tela para agendar
+            </button>
+        </div>
+    </section>
+
+    <section id="servicos" class="section">
+        <h2 class="section-title">Serviços Premium</h2>
+        <div class="cards-grid">
+            <div class="service-card">
+                <div class="service-icon"><i class="fas fa-cut"></i></div>
+                <h3>Corte de Cabelo</h3>
+                <div class="price">R$ 30</div>
+                <div class="desc">Finalização + pomada ou gel inclusos</div>
+            </div>
+            <div class="service-card">
+                <div class="service-icon"><i class="fas fa-beard"></i></div>
+                <h3>Barba</h3>
+                <div class="price">R$ 20</div>
+                <div class="desc">Balm + loção pós-barba premium</div>
+            </div>
+            <div class="service-card">
+                <div class="service-icon"><i class="fas fa-eye"></i></div>
+                <h3>Design de Sobrancelha</h3>
+                <div class="price">R$ 10</div>
+                <div class="desc">Design profissional e simetria</div>
+            </div>
+            <div class="service-card">
+                <div class="service-icon"><i class="fas fa-paint-brush"></i></div>
+                <h3>Desenhos</h3>
+                <div class="price">a partir de R$ 15</div>
+                <div class="desc">Riscos, degradê artístico e personalizado</div>
+            </div>
+        </div>
+    </section>
+
+    <section id="horarios" class="section">
+        <h2 class="section-title">Horário de Funcionamento</h2>
+        <div class="hours-box">
+            <p><i class="fas fa-calendar-alt" style="color: var(--accent); margin-right: 8px;"></i> <span class="hours-days">Segunda a Sábado</span></p>
+            <p><i class="fas fa-clock"></i> 09h às 12h</p>
+            <p><i class="fas fa-clock"></i> 14h às 20h</p>
+            <p style="margin-top: 1rem; font-size: 0.9rem;"><i class="fas fa-store"></i> Atendimento exclusivo com horário marcado</p>
+        </div>
+    </section>
+
+    <section id="agendamento" class="section">
+        <h2 class="section-title">Agende seu Horário</h2>
+        <div class="form-container">
+            <form id="bookingForm">
+                <div class="form-group">
+                    <label><i class="fas fa-user"></i> Nome completo</label>
+                    <input type="text" id="nome" placeholder="Seu nome" required>
+                </div>
+                
+                <div class="form-group">
+                    <label><i class="fas fa-scissors"></i> Serviços desejados (selecione um ou mais)</label>
+                    <div class="checkbox-group" id="servicesChecklist">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="serv_corte" value="Corte de cabelo (R$30)" data-price="30">
+                            <label for="serv_corte">Corte de Cabelo <span class="service-price">R$ 30</span></label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="serv_barba" value="Barba (R$20)" data-price="20">
+                            <label for="serv_barba">Barba <span class="service-price">R$ 20</span></label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="serv_sobrancelha" value="Design de sobrancelha (R$10)" data-price="10">
+                            <label for="serv_sobrancelha">Design de Sobrancelha <span class="service-price">R$ 10</span></label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="serv_desenhos" value="Desenhos (a partir R$15)" data-price="15">
+                            <label for="serv_desenhos">Desenhos <span class="service-price">a partir R$ 15</span></label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="serv_combo" value="Combo Corte + Barba (R$45)" data-price="45">
+                            <label for="serv_combo">Combo Corte + Barba <span class="service-price">R$ 45</span></label>
+                        </div>
+                    </div>
+                    <div class="selected-services-info" id="selectedServicesInfo">
+                        <i class="fas fa-info-circle"></i> Nenhum serviço selecionado
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fas fa-calendar-day"></i> Data</label>
+                    <input type="date" id="data" required>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-hourglass-half"></i> Horário</label>
+                    <input type="time" id="horario" required>
+                </div>
+                <button type="submit" class="btn-submit"><i class="fab fa-whatsapp"></i> Agendar</button>
+            </form>
+        </div>
+    </section>
+
+    <section id="contato" class="section contact-section">
+        <h2 class="section-title">Conecte-se</h2>
+        <div class="contact-icons">
+            <a href="#" id="whatsappContactLink" target="_blank"><i class="fab fa-whatsapp"></i></a>
+            <a href="https://instagram.com/barbeiro.jhoan28" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+        </div>
+        
+        <div class="instagram-handle">
+            <i class="fab fa-instagram"></i> <a href="https://instagram.com/barbeiro.jhoan28" target="_blank">@barbeiro.jhoan28</a>
+        </div>
+        
+        <div class="address-info">
+            <i class="fas fa-map-marker-alt"></i> Rua Passo Fundo, 437 - Mathias Velho
+        </div>
+    </section>
+</main>
+
+<footer>
+    <p>© 2025 Jhoan's Barber | Estilo e tradição que cortam o comum.</p>
+</footer>
+
+<script>
+    // ========== EFEITO DE CHUVA (ESTILO ORIGINAL, MAIS SUTIL) ==========
+    const canvas = document.getElementById('rainCanvas');
+    let ctx = canvas.getContext('2d');
+    let particles = [];
+    let animationId = null;
+    let canvasWidth, canvasHeight;
+
+    function resizeCanvas() {
+        canvasWidth = window.innerWidth;
+        canvasHeight = window.innerHeight;
+        canvas.width = canvasWidth;
+        canvas.height = canvasHeight;
+    }
+
+    class RainDrop {
+        constructor() {
+            this.x = Math.random() * canvasWidth;
+            this.y = Math.random() * canvasHeight - canvasHeight;
+            this.length = Math.random() * 15 + 8;
+            this.speed = Math.random() * 6 + 4;
+            this.thickness = Math.random() * 1.5 + 0.8;
+            this.opacity = Math.random() * 0.4 + 0.2;
+        }
+        
+        update() {
+            this.y += this.speed;
+            if (this.y > canvasHeight) {
+                this.y = -this.length;
+                this.x = Math.random() * canvasWidth;
+            }
+        }
+        
+        draw() {
+            ctx.beginPath();
+            ctx.moveTo(this.x, this.y);
+            ctx.lineTo(this.x, this.y + this.length);
+            ctx.lineWidth = this.thickness;
+            ctx.strokeStyle = `rgba(180, 210, 255, ${this.opacity})`;
+            ctx.stroke();
+        }
+    }
+
+    function initRain() {
+        const particleCount = Math.min(200, Math.floor(window.innerWidth / 6));
+        particles = [];
+        for (let i = 0; i < particleCount; i++) {
+            particles.push(new RainDrop());
+        }
+    }
+
+    function animateRain() {
+        if (!ctx) return;
+        ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+        
+        for (let p of particles) {
+            p.update();
+            p.draw();
+        }
+        
+        animationId = requestAnimationFrame(animateRain);
+    }
+
+    function startRain() {
+        if (animationId) cancelAnimationFrame(animationId);
+        resizeCanvas();
+        initRain();
+        animateRain();
+    }
+
+    window.addEventListener('resize', () => {
+        resizeCanvas();
+        initRain();
+    });
+    
+    startRain();
+
+    // ========== MENU QUE DESAPARECE AO ROLAR ==========
+    const navbar = document.getElementById('mainNavbar');
+    let hasScrolledOnce = false;
+    
+    function handleNavbarOnScroll() {
+        const currentScrollY = window.scrollY;
+        if (!hasScrolledOnce && currentScrollY > 30) {
+            hasScrolledOnce = true;
+            navbar.classList.add('navbar-hidden');
+        }
+    }
+    
+    window.addEventListener('scroll', handleNavbarOnScroll);
+    if (window.scrollY > 30) {
+        hasScrolledOnce = true;
+        navbar.classList.add('navbar-hidden');
+    }
+
+    // ========== TEMA DARK/LIGHT COM BOTÃO FLUTUANTE ==========
+    const floatingThemeBtn = document.getElementById('floatingThemeBtn');
+    const floatingThemeIcon = document.getElementById('floatingThemeIcon');
+    const floatingThemeText = document.getElementById('floatingThemeText');
+
+    function setTheme(theme) {
+        if (theme === 'light') {
+            document.body.classList.add('light');
+            document.body.classList.remove('dark');
+            localStorage.setItem('jhoanTheme', 'light');
+            floatingThemeIcon.className = 'fas fa-sun';
+            floatingThemeText.innerText = 'Light';
+        } else {
+            document.body.classList.remove('light');
+            document.body.classList.add('dark');
+            localStorage.setItem('jhoanTheme', 'dark');
+            floatingThemeIcon.className = 'fas fa-moon';
+            floatingThemeText.innerText = 'Dark';
+        }
+    }
+    
+    const savedTheme = localStorage.getItem('jhoanTheme');
+    if (savedTheme === 'light') {
+        setTheme('light');
+    } else {
+        setTheme('dark');
+    }
+    
+    floatingThemeBtn.addEventListener('click', () => {
+        const isLight = document.body.classList.contains('light');
+        setTheme(isLight ? 'dark' : 'light');
+    });
+
+    // ========== WHATSAPP ==========
+    const whatsappNumber = "5551980650828";
+    const defaultMessage = "Olá, gostaria de agendar um horário na Jhoan's Barber.";
+
+    function openWhatsApp(message) {
+        const encodedMsg = encodeURIComponent(message);
+        const url = `https://wa.me/${whatsappNumber}?text=${encodedMsg}`;
+        window.open(url, '_blank');
+    }
+
+    const scrollBtn = document.getElementById('scrollToBookingBtn');
+    if (scrollBtn) {
+        scrollBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const bookingSection = document.getElementById('agendamento');
+            if (bookingSection) {
+                const offset = 20;
+                const elementPosition = bookingSection.getBoundingClientRect().top + window.scrollY;
+                window.scrollTo({
+                    top: elementPosition - offset,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    }
+
+    const whatsappContactLink = document.getElementById('whatsappContactLink');
+    if (whatsappContactLink) {
+        whatsappContactLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            openWhatsApp(defaultMessage);
+        });
+    }
+
+    // ========== MÚLTIPLOS SERVIÇOS ==========
+    function updateSelectedServicesDisplay() {
+        const checkboxes = document.querySelectorAll('#servicesChecklist input[type="checkbox"]');
+        const selected = [];
+        checkboxes.forEach(cb => {
+            if (cb.checked) {
+                selected.push(cb.value);
+            }
+        });
+        const infoDiv = document.getElementById('selectedServicesInfo');
+        if (selected.length === 0) {
+            infoDiv.innerHTML = '<i class="fas fa-info-circle"></i> Nenhum serviço selecionado';
+        } else {
+            infoDiv.innerHTML = `<i class="fas fa-check-circle"></i> ${selected.length} serviço(s) selecionado(s): ${selected.join(', ')}`;
+        }
+    }
+    
+    const serviceCheckboxes = document.querySelectorAll('#servicesChecklist input[type="checkbox"]');
+    serviceCheckboxes.forEach(cb => {
+        cb.addEventListener('change', updateSelectedServicesDisplay);
+    });
+    updateSelectedServicesDisplay();
+
+    function isValidBusinessHour(dateStr, timeStr) {
+        const selectedDate = new Date(dateStr);
+        const day = selectedDate.getDay();
+        if (day === 0) return false;
+        
+        const [hour, minute] = timeStr.split(':').map(Number);
+        const totalMinutes = hour * 60 + minute;
+        const isMorning = (totalMinutes >= 9*60 && totalMinutes < 12*60);
+        const isAfternoon = (totalMinutes >= 14*60 && totalMinutes < 20*60);
+        return (isMorning || isAfternoon);
+    }
+    
+    function getTotalPrice() {
+        const checkboxes = document.querySelectorAll('#servicesChecklist input[type="checkbox"]');
+        let total = 0;
+        checkboxes.forEach(cb => {
+            if (cb.checked) {
+                const price = parseInt(cb.getAttribute('data-price'));
+                if (!isNaN(price)) total += price;
+            }
+        });
+        return total;
+    }
+
+    const form = document.getElementById('bookingForm');
+    
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const nome = document.getElementById('nome').value.trim();
+        const data = document.getElementById('data').value;
+        const horario = document.getElementById('horario').value;
+        
+        const selectedServices = [];
+        const checkboxesSelected = document.querySelectorAll('#servicesChecklist input[type="checkbox"]');
+        checkboxesSelected.forEach(cb => {
+            if (cb.checked) {
+                selectedServices.push(cb.value);
+            }
+        });
+
+        if (!nome) {
+            alert("⚠️ Por favor, preencha seu nome.");
+            return;
+        }
+        
+        if (selectedServices.length === 0) {
+            alert("⚠️ Por favor, selecione pelo menos um serviço.");
+            return;
+        }
+        
+        if (!data || !horario) {
+            alert("⚠️ Por favor, preencha a data e o horário.");
+            return;
+        }
+
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const selectedDate = new Date(data);
+        if (selectedDate < today) {
+            alert("📅 Selecione uma data igual ou posterior a hoje.");
+            return;
+        }
+
+        if (!isValidBusinessHour(data, horario)) {
+            alert("⏰ Horário inválido! Atendemos de Segunda a Sábado: 09h-12h e 14h-20h. (Domingos fechado)");
+            return;
+        }
+        
+        const servicosListados = selectedServices.join(', ');
+        const valorTotal = getTotalPrice();
+        const valorTexto = valorTotal > 0 ? ` | Total aproximado: R$ ${valorTotal}` : '';
+        
+        const message = `*🪒 JHOAN'S BARBER - NOVO AGENDAMENTO*%0A%0A` +
+                        `👤 *Cliente:* ${nome}%0A` +
+                        `✂️ *Serviços:* ${servicosListados}${valorTexto}%0A` +
+                        `📅 *Data:* ${data}%0A` +
+                        `⏰ *Horário:* ${horario}%0A%0A` +
+                        `✅ *Status:* Aguardando confirmação.%0A` +
+                        `💈 *Equipe Jhoan's Barber* aguarda você!`;
+
+        openWhatsApp(message);
+    });
+
+    const dateInput = document.getElementById('data');
+    if (dateInput) {
+        const todayFormatted = new Date().toISOString().split('T')[0];
+        dateInput.setAttribute('min', todayFormatted);
+    }
+
+    const navLinks = document.querySelectorAll('.nav-menu a');
+    navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            const targetId = this.getAttribute('href');
+            if (targetId && targetId.startsWith('#')) {
+                e.preventDefault();
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    const offset = 20;
+                    const elementPosition = targetElement.getBoundingClientRect().top + window.scrollY;
+                    window.scrollTo({
+                        top: elementPosition - offset,
+                        behavior: 'smooth'
+                    });
+                }
+            }
+        });
+    });
+</script>
+</body>
+</html>
